@@ -1,9 +1,9 @@
-﻿using Library.API.Entities;
+﻿using Library.API2.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Library.API.Services
+namespace Library.API2.Services
 {
     public class LibraryRepository : ILibraryRepository
     {

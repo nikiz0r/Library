@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.API.Entities
+namespace Library.API2.Entities
 {
     public class Author
     {

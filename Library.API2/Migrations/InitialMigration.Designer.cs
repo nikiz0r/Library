@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Library.API.Entities;
+using Library.API2.Entities;
 
-namespace Library.API.Migrations
+namespace Library.API2.Migrations
 {
     [DbContext(typeof(LibraryContext))]
     [Migration("20161007150914_InitialMigration")]
