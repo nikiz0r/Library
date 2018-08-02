@@ -73,6 +73,8 @@ namespace Library.API2
                         src.DateOfBirth.GetCurrentAge()));
 
                 c.CreateMap<Entities.Book, Models.BookDto>();
+
+                c.CreateMap<Models.AuthorForCreationDto, Entities.Author>();
             });
 
             libraryContext.EnsureSeedDataForContext();
