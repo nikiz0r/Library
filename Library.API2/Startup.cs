@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Library.API2.Entities;
+using Library.API2.Helpers;
 using Library.API2.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +30,11 @@ namespace Library.API2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+            });
 
             // register the DbContext on the container, getting the connection string from
             // appSettings (note: use this during development; in a production environment,
@@ -49,8 +56,24 @@ namespace Library.API2
             }
             else
             {
-                app.UseExceptionHandler();
+                app.UseExceptionHandler(appBuilder =>
+                    appBuilder.Run(async context =>
+                        {
+                            context.Response.StatusCode = 500;
+                            await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+                        }));
             }
+
+            AutoMapper.Mapper.Initialize(c =>
+            {
+                c.CreateMap<Entities.Author, Models.AuthorDto>()
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
+                        $"{src.FirstName} {src.LastName}"))
+                    .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
+                        src.DateOfBirth.GetCurrentAge()));
+
+                c.CreateMap<Entities.Book, Models.BookDto>();
+            });
 
             libraryContext.EnsureSeedDataForContext();
 
