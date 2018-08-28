@@ -23,7 +23,7 @@ namespace Library.API2.Controllers
         }
 
         [HttpGet]
-        public IActionResult Authors()
+        public IActionResult GetAuthors()
         {
             var authorsFromRepo = _libraryRepository.GetAuthors();
 
@@ -32,7 +32,7 @@ namespace Library.API2.Controllers
         }
 
         [HttpGet("{authorId}", Name = "GetAuthor")]
-        public IActionResult Authors([FromRoute]Guid authorId)
+        public IActionResult GetAuthor([FromRoute]Guid authorId)
         {
             var authorFromRepo = _libraryRepository.GetAuthor(authorId);
 
@@ -44,7 +44,7 @@ namespace Library.API2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authors([FromBody]AuthorForCreationDto author)
+        public IActionResult CreateAuthors([FromBody]AuthorForCreationDto author)
         {
             if (author == null) return BadRequest();
 
@@ -65,6 +65,19 @@ namespace Library.API2.Controllers
             if (_libraryRepository.AuthorExists(id)) return new StatusCodeResult(StatusCodes.Status409Conflict);
 
             return NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAuthor(Guid id)
+        {
+            var authorFromRepo = _libraryRepository.GetAuthor(id);
+            if (authorFromRepo == null) return NotFound();
+
+            _libraryRepository.DeleteAuthor(authorFromRepo);
+
+            if (!_libraryRepository.Save()) throw new Exception($"Deleting author {id} failed on save.");
+
+            return NoContent();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Library.API2.Controllers
         }
 
         [HttpPost]
-        public IActionResult AuthorCollection([FromBody] IEnumerable<AuthorForCreationDto> authorCollection)
+        public IActionResult CreateAuthorCollection([FromBody] IEnumerable<AuthorForCreationDto> authorCollection)
         {
             if (authorCollection == null) return BadRequest();
 
@@ -40,7 +40,7 @@ namespace Library.API2.Controllers
         }
 
         [HttpGet("({ids})", Name = "GetAuthorCollection")]
-        public IActionResult AuthorCollection(
+        public IActionResult GetAuthorCollection(
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null) return BadRequest();
