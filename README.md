@@ -1,0 +1,2 @@
+- Things to do for real, or more complex projects
+    - Instead of using the default validation ASP.NET Core provide, try using FluentValidations
