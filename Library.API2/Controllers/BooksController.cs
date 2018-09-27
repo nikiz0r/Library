@@ -51,6 +51,14 @@ namespace Library.API2.Controllers
         {
             if (book == null) return BadRequest();
 
+            if (book.Description == book.Title)
+            {
+                ModelState.AddModelError(nameof(BookForCreationDto),
+                    "The provided description should be different from the title");
+            }
+
+            if (!ModelState.IsValid) return new UnprocessableEntityObjectResult(ModelState);
+
             if (!_libraryRepository.AuthorExists(authorId)) return NotFound();
 
             var bookEntity = Mapper.Map<Book>(book);
