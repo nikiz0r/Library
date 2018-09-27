@@ -86,7 +86,7 @@ namespace Library.API2.Controllers
 
             if (!_libraryRepository.Save()) throw new Exception($"Deleting book {id} for author {authorId} failed on save.");
 
-            _logger.LogInformation(100, $"Book {id} for author {authorId} was deleted.");
+            _logger.LogInformation(100, $"Book {id} for author {authorId} was deleted."); 
 
             return NoContent();
         }
