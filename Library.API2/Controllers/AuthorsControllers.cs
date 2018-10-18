@@ -108,15 +108,17 @@ namespace Library.API2.Controllers
         }
 
         [HttpGet("{authorId}", Name = "GetAuthor")]
-        public IActionResult GetAuthor([FromRoute]Guid authorId)
+        public IActionResult GetAuthor([FromRoute]Guid authorId, [FromQuery] string fields)
         {
+            if (!_typeHelperService.TypeHasProperties<AuthorDto>(fields)) return BadRequest();
+
             var authorFromRepo = _libraryRepository.GetAuthor(authorId);
 
             if (authorFromRepo == null) return NotFound();
 
             var author = Mapper.Map<AuthorDto>(authorFromRepo);
 
-            return new OkObjectResult(author);
+            return new OkObjectResult(author.ShapeData(fields));
         }
 
         [HttpPost]
