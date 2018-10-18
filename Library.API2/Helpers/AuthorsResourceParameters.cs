@@ -20,5 +20,6 @@ namespace Library.API2.Helpers
         }
 
         public string Genre { get; set; }
+        public string SearchQuery { get; set; }
     }
 }
