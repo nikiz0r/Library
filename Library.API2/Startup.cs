@@ -52,6 +52,7 @@ namespace Library.API2
             });
 
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+            services.AddTransient<ITypeHelperService, TypeHelperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
